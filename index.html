@@ -1,13 +1,365 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Local Marketplace Platform</title>
-    <script type="module" crossorigin src="/local-marketplace-platform-demo/assets/index-D7Zlj76l.js"></script>
-    <link rel="stylesheet" crossorigin href="/local-marketplace-platform-demo/assets/index-DXbintW4.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local Marketplace Platform — Clean-Room Build Plan | Ciklum</title>
+<meta name="description" content="A clean-room, in-house rebuild blueprint for a UK multi-tenant food-ordering marketplace: research, PRDs, backlog, estimate, solutions-architecture diagrams, and a working demo." />
+<style>
+  :root{
+    --ink:#0b1f3a; --ink2:#1b3c6b; --muted:#5b6b82; --soft:#8a99ad;
+    --bg:#f6f7fb; --card:#ffffff; --line:#e6e9f0; --accent:#ff5a1f; --accent2:#ff8a5c;
+    --ok:#10b981; --info:#3b82f6; --promo:#7c3aed;
+    --r:16px; --shadow:0 10px 30px rgba(11,31,58,.10); --shadow-sm:0 2px 10px rgba(16,24,40,.06);
+    --font:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  h1,h2,h3,h4,p{margin:0}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease}
+  .btn--accent{background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(255,90,31,.30)}
+  .btn--accent:hover{transform:translateY(-2px)}
+  .btn--ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}
+  .btn--dark{background:var(--ink);color:#fff}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+
+  /* nav */
+  nav.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+  nav.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+  nav.top .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
+  nav.top .logo svg{height:24px}
+  nav.top .links{margin-left:auto;display:flex;gap:22px;align-items:center}
+  nav.top .links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none}
+  nav.top .links a:hover{color:var(--ink)}
+  @media(max-width:760px){nav.top .links a:not(.btn){display:none}}
+
+  /* hero */
+  header.hero{background:radial-gradient(1100px 520px at 80% -20%, #244a82, #0b1f3a);color:#fff;padding:64px 0 72px;overflow:hidden}
+  header.hero .grid{display:grid;grid-template-columns:1.25fr .9fr;gap:36px;align-items:center}
+  header.hero h1{font-size:42px;line-height:1.08;letter-spacing:-.02em;max-width:15ch}
+  header.hero p.lead{margin-top:16px;color:#c7d2e4;font-size:17px;max-width:54ch}
+  header.hero .cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+  header.hero .tags{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+  header.hero .tags span{font-size:12px;color:#aebfd6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 12px}
+  .hero-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:22px}
+  .hero-card h4{font-size:13px;color:#aebfd6;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .hero-stats div{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px}
+  .hero-stats strong{display:block;font-size:26px;letter-spacing:-.02em}
+  .hero-stats small{color:#aebfd6;font-size:12px}
+  @media(max-width:860px){header.hero .grid{grid-template-columns:1fr}header.hero h1{font-size:33px}}
+
+  section{padding:58px 0}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:720px;margin-bottom:30px}
+  .sec-head h2{font-size:28px;letter-spacing:-.02em;margin-top:8px}
+  .sec-head p{color:var(--muted);margin-top:10px;font-size:15.5px}
+
+  .cards{display:grid;gap:16px}
+  .cards.c3{grid-template-columns:repeat(3,1fr)}
+  .cards.c4{grid-template-columns:repeat(4,1fr)}
+  .cards.c2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:900px){.cards.c3,.cards.c4{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.cards.c2,.cards.c3,.cards.c4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-sm)}
+  .card h3{font-size:16px;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:14px}
+  .card .num{font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .card .num small{font-size:14px;color:var(--soft);font-weight:600}
+
+  /* method steps */
+  .steps{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;counter-reset:s}
+  @media(max-width:980px){.steps{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr 1fr}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;position:relative}
+  .step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--ink);color:#fff;font-weight:800;font-size:14px;margin-bottom:10px}
+  .step h4{font-size:14px}
+  .step p{font-size:12.5px;color:var(--muted);margin-top:4px}
+
+  /* module bars */
+  .modgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px}
+  @media(max-width:720px){.modgrid{grid-template-columns:1fr}}
+  .modrow{display:grid;grid-template-columns:200px 1fr 34px;align-items:center;gap:12px;font-size:13.5px}
+  .modrow .track{height:9px;background:#eef1f6;border-radius:999px;overflow:hidden}
+  .modrow .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px}
+  .modrow b{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  /* diagrams */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:900px){.gallery{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.gallery{grid-template-columns:1fr}}
+  .dg{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease}
+  .dg:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .dg .thumb{height:150px;background:#0e2banner;display:grid;place-items:center;background:linear-gradient(135deg,#eef3fb,#dde7f5);position:relative}
+  .dg .thumb img{width:100%;height:100%;object-fit:contain;background:#fff}
+  .dg .thumb .ph{color:#7c92b3;font-size:13px;font-weight:600}
+  .dg .meta{padding:12px 14px}
+  .dg .meta .k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+  .dg .meta .t{font-size:13.5px;font-weight:600;margin-top:2px}
+
+  /* estimate */
+  .estimate{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.estimate{grid-template-columns:1fr}}
+  .est{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-sm)}
+  .est.flag{border-color:var(--accent);box-shadow:0 8px 26px rgba(255,90,31,.14)}
+  .est h3{font-size:15px;color:var(--muted);font-weight:700}
+  .est .big{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:8px 0}
+  .est ul{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px}
+  .est ul li{margin:3px 0}
+
+  /* deliverables */
+  .deliv{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:720px){.deliv{grid-template-columns:1fr}}
+  .deliv .d{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .deliv .d .ic{width:42px;height:42px;border-radius:11px;background:#eef3fb;color:var(--ink2);display:grid;place-items:center;font-size:20px;flex:none}
+  .deliv .d h4{font-size:14.5px}
+  .deliv .d p{font-size:13px;color:var(--muted);margin-top:3px}
+
+  .callout{background:linear-gradient(135deg,#0b1f3a,#1b3c6b);color:#fff;border-radius:20px;padding:30px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .callout h3{font-size:20px}
+  .callout p{color:#c7d2e4;font-size:14px;margin-top:6px;max-width:60ch}
+
+  .note{font-size:12.5px;color:var(--soft);background:#fff;border:1px dashed var(--line);border-radius:12px;padding:14px 16px;margin-top:22px}
+  footer{background:var(--ink);color:#c7d2e4;padding:34px 0;font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="wrap">
+    <span class="logo">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#0b1f3a" stroke-width="3"/><circle cx="20" cy="20" r="16" stroke="#ff5a1f" stroke-width="3" stroke-dasharray="34 80"/></svg>
+      Ciklum
+    </span>
+    <div class="links">
+      <a href="#what">Overview</a>
+      <a href="#method">Method</a>
+      <a href="#features">Features</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#estimate">Estimate</a>
+      <a class="btn btn--dark" href="./app/" >Launch live demo →</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow" style="color:#ffd9c7">Clean-room product discovery · Ciklum</span>
+      <h1>From a public website to an in-house build plan.</h1>
+      <p class="lead">We reverse-engineered a live UK multi-tenant food-ordering marketplace (Blackpool Eats, built on the white-label Redbox platform) using <b>only publicly observable behaviour</b> — and turned it into PRDs, a sized backlog, an effort estimate, solutions-architecture diagrams, and a working clone.</p>
+      <div class="cta">
+        <a class="btn btn--accent" href="./app/">▶ Launch the live demo</a>
+        <a class="btn btn--ghost" href="#estimate">See the estimate</a>
+      </div>
+      <div class="tags">
+        <span>343 features catalogued</span>
+        <span>16 modules</span>
+        <span>17 architecture diagrams</span>
+        <span>20+ specification docs</span>
+        <span>Runnable FE + BE + IaC</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h4>The brief, in one line</h4>
+      <p style="color:#dbe5f2;margin-top:8px;font-size:14px">Could we build this in-house instead of licensing a vendor — and what would it take?</p>
+      <div class="hero-stats">
+        <div><strong>343</strong><small>features mapped</small></div>
+        <div><strong>~46%</strong><small>are "Must-have"</small></div>
+        <div><strong>≈6&nbsp;mo</strong><small>to MVP*</small></div>
+        <div><strong>9–10</strong><small>delivery squad*</small></div>
+      </div>
+      <p style="color:#8da3c4;font-size:11px;margin-top:12px">*Indicative — see the Estimate section and the backlog document.</p>
+    </div>
+  </div>
+</header>
+
+<section id="what" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What this is</span>
+      <h2>A complete, shareable answer to "build vs. buy"</h2>
+      <p>This package is a repeatable, AI-assisted method for sizing an in-house rebuild of any observable SaaS product — applied end-to-end to a Redbox-powered local marketplace. Everything below is original, clean-room work derived from public evidence.</p>
+    </div>
+    <div class="cards c3">
+      <div class="card"><h3>🔎 Observe → Specify</h3><p>The live site, sitemap, app-store listings and public vendor docs were mined into a 343-feature parity matrix and full PRDs — never the vendor's private code.</p></div>
+      <div class="card"><h3>📐 Architect</h3><p>A modern AWS, multi-tenant, event-driven reference architecture — captured as 17 professional draw.io diagrams (HLD, LLD, C4, ERD, sequences).</p></div>
+      <div class="card"><h3>🧱 Prove it</h3><p>A working clone: a polished customer storefront and operator console, an Express API, a Postgres schema, Terraform, Docker and CI/CD.</p></div>
+    </div>
+    <div class="note"><b>Clean-room boundary.</b> No proprietary Redbox/Korelogic source code, private APIs, database schemas, assets or trademarks were used or copied. Requirements were <i>inferred</i> from publicly observable behaviour and public documentation, and are clearly labelled as such. The result is an independent, functionally-equivalent design — not a copy.</div>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The method</span>
+      <h2>How we turned a public website into a backlog</h2>
+      <p>A six-stage pipeline, each stage accelerated by AI agents and verified by humans. The full playbook is in the methodology document.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><h4>Observe</h4><p>Black-box the live site: routes, network, bundle, app listings, public docs.</p></div>
+      <div class="step"><h4>Catalogue</h4><p>Extract a deduped capability map — 343 features with priority &amp; complexity.</p></div>
+      <div class="step"><h4>Specify</h4><p>Generate BRD + 11 PRDs with Given/When/Then acceptance criteria.</p></div>
+      <div class="step"><h4>Size</h4><p>Story-point every epic with PERT / reference-class estimation.</p></div>
+      <div class="step"><h4>Estimate</h4><p>Roll up to team shape, velocity, timeline and cost ranges.</p></div>
+      <div class="step"><h4>Validate</h4><p>Human review gates, traceability, and a working prototype as proof.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Feature parity</span>
+      <h2>343 features across 16 modules</h2>
+      <p>The full parity matrix maps every observable capability to a priority (MoSCoW) and a complexity. Here is the distribution by module.</p>
+    </div>
+    <div class="modgrid" id="modgrid"></div>
+    <div class="cards c4" style="margin-top:26px">
+      <div class="card"><div class="num">158 <small>Must</small></div><p>Core to a releasable product (~46%).</p></div>
+      <div class="card"><div class="num">116 <small>Should</small></div><p>Strongly expected for parity (~34%).</p></div>
+      <div class="card"><div class="num">69 <small>Could</small></div><p>Differentiators &amp; nice-to-haves (~20%).</p></div>
+      <div class="card"><div class="num">343 <small>Total</small></div><p>Catalogued from public evidence.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Solutions architecture</span>
+      <h2>17 editable draw.io diagrams</h2>
+      <p>A senior-architect diagram set: system context, HLD on AWS, C4 container/component, an ERD, network topology, event-driven design, CI/CD, deployment, the order state machine, and five UML sequence flows. Click any tile to open the full SVG.</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section id="estimate" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The estimate</span>
+      <h2>How many people, and how long?</h2>
+      <p>Three delivery shapes. Figures are indicative and fully derived in the backlog &amp; estimation document, with assumptions stated.</p>
+    </div>
+    <div class="estimate">
+      <div class="est">
+        <h3>MVP — single marketplace</h3>
+        <div class="big">≈ 6 months</div>
+        <ul>
+          <li>Standard squad: ~9–10 delivery engineers (~14 total)</li>
+          <li>Must-have ordering, payments (Paybox), ops console</li>
+          <li>Web-first, one region — real paid orders end to end</li>
+          <li>Lean ~6 people → ~9 mo · accelerated ~16 → ~4 mo</li>
+        </ul>
+      </div>
+      <div class="est flag">
+        <h3>V1 — competitive launch</h3>
+        <div class="big">≈ 10–12 months</div>
+        <ul>
+          <li>Scales toward ~2 squads (~16+ delivery)</li>
+          <li>Delivery network, marketing, loyalty, reporting</li>
+          <li>Multi-tenant onboarding, payouts &amp; KYC</li>
+        </ul>
+      </div>
+      <div class="est">
+        <h3>Full parity (343 features)</h3>
+        <div class="big">≈ 16–18 months</div>
+        <ul>
+          <li>~22–26 people across 3 squads (standard plan)</li>
+          <li>Native apps, terminals/hardware, advanced BI</li>
+          <li>Hardening, compliance, DR · ~2,300 story points</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">Cost ranges, story-point roll-ups, team composition options and phasing are detailed in <b>40-BACKLOG-ESTIMATION.md</b> and the <b>roadmap</b>. The headline numbers above are reconciled to that document.</div>
+  </div>
+</section>
+
+<section id="deliverables">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What's in the package</span>
+      <h2>Everything, documented and runnable</h2>
+      <p>A private repository contains the full set. This page summarises it; ask for repo access to browse the source.</p>
+    </div>
+    <div class="deliv">
+      <div class="d"><div class="ic">📄</div><div><h4>Research &amp; methodology</h4><p>979-line evidence dossier, the reverse-engineering playbook, and the 343-feature inventory.</p></div></div>
+      <div class="d"><div class="ic">📝</div><div><h4>BRD + 11 PRDs</h4><p>Business requirements and per-module product requirements with acceptance criteria.</p></div></div>
+      <div class="d"><div class="ic">📐</div><div><h4>17 architecture diagrams</h4><p>Editable draw.io with official AWS icons — HLD, LLD, C4, ERD, sequences, state machine.</p></div></div>
+      <div class="d"><div class="ic">🗃️</div><div><h4>Data model &amp; API</h4><p>PostgreSQL schema with row-level-security multi-tenancy, plus an OpenAPI 3.1 spec.</p></div></div>
+      <div class="d"><div class="ic">💻</div><div><h4>Frontend + backend clone</h4><p>React storefront &amp; operator console, an Express API, shared TypeScript domain model.</p></div></div>
+      <div class="d"><div class="ic">☁️</div><div><h4>DevOps &amp; AWS IaC</h4><p>Modular Terraform (9 modules), Docker, GitHub Actions CI/CD, runbooks — validated.</p></div></div>
+      <div class="d"><div class="ic">📊</div><div><h4>Backlog &amp; estimate</h4><p>Story-pointed backlog, team options, phased roadmap and cost ranges.</p></div></div>
+      <div class="d"><div class="ic">🛡️</div><div><h4>Security &amp; compliance</h4><p>PCI-DSS, PSD2/SCA, UK-GDPR, FCA and Natasha's Law analysis &amp; NFRs.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="callout">
+      <div>
+        <h3>See it working</h3>
+        <p>The live demo is a polished, Ciklum-branded build: browse local outlets, build a basket and check out, then switch to the operator console for live orders, payments, delivery, marketing and reporting.</p>
+      </div>
+      <a class="btn btn--accent" href="./app/">▶ Launch the live demo</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Built by <b style="color:#fff">Ciklum</b> · Clean-room functional equivalent. No proprietary source, assets or trademarks used.</span>
+    <span>Synthetic demo data · Blackpool &amp; the Fylde Coast</span>
+  </div>
+</footer>
+
+<script>
+  // Feature-by-module data (from docs/03-FEATURE-INVENTORY.md roll-up)
+  var modules = [
+    ["Tenancy, RBAC & Config",34],["Customer Marketplace",31],["Delivery & Zones",28],
+    ["Loyalty",28],["Orders & Fulfilment",25],["Discounts & Merchandising",25],
+    ["Platform / Shared",23],["Payments & Paybox",22],["Reporting & Analytics",21],
+    ["Marketing",19],["Catalog & Menu",13],["Outlet Onboarding",12],
+    ["Mobile Apps",10],["Messaging & Notifications",9],["Hardware / Terminals",7],
+    ["Management Portal (shell)",6]
+  ];
+  var max = Math.max.apply(null, modules.map(function(m){return m[1]}));
+  document.getElementById('modgrid').innerHTML = modules.map(function(m){
+    return '<div class="modrow"><span>'+m[0]+'</span><span class="track"><span class="fill" style="width:'+(m[1]/max*100)+'%"></span></span><b>'+m[1]+'</b></div>';
+  }).join('');
+
+  // Diagram gallery — links to exported SVGs (./diagrams/<name>.svg)
+  var diagrams = [
+    ["00-C4-CONTEXT-SYSTEM","C4 · Context","System context"],
+    ["01-HLD-AWS-MULTI-TENANT-PLATFORM","HLD","AWS multi-tenant platform"],
+    ["02-C4-CONTAINER","C4 · Container","Containers & services"],
+    ["03-C4-COMPONENT-ORDER-SERVICE","C4 · Component","Order & checkout"],
+    ["04-ERD-DATA-MODEL","ERD","Entity relationship model"],
+    ["05-SEQ-CHECKOUT-PAYMENT","Sequence","Checkout, authorise & capture"],
+    ["06-SEQ-REFUND-DISPUTE","Sequence","Refund & chargeback"],
+    ["07-SEQ-ONBOARDING-KYC","Sequence","Onboarding & KYC/payouts"],
+    ["08-SEQ-DELIVERY-DISPATCH","Sequence","Delivery dispatch"],
+    ["09-SEQ-MARKETING-CAMPAIGN","Sequence","Marketing campaign send"],
+    ["10-NETWORK-VPC","Network","VPC topology"],
+    ["11-CICD-PIPELINE","DevOps","CI/CD pipeline"],
+    ["12-EVENT-DRIVEN-ARCH","Architecture","Event-driven backbone"],
+    ["13-TENANCY-DATA-RBAC","LLD","Multi-tenancy, RLS & RBAC"],
+    ["14-DEPLOYMENT-ENVIRONMENTS","DevOps","Deployment & environments"],
+    ["15-ORDER-STATE-MACHINE","State","Order lifecycle"],
+    ["16-DOMAIN-CONTEXTS","Domain","Bounded contexts map"]
+  ];
+  document.getElementById('gallery').innerHTML = diagrams.map(function(d){
+    var img = './diagrams/'+d[0]+'.png';
+    return '<a class="dg" href="'+img+'" target="_blank" rel="noopener">'+
+      '<span class="thumb"><img src="'+img+'" alt="'+d[2]+'" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.ph\').style.display=\'block\'"/><span class="ph" style="display:none">'+d[1]+'</span></span>'+
+      '<span class="meta"><span class="k">'+d[1]+'</span><div class="t">'+d[2]+'</div></span></a>';
+  }).join('');
+</script>
+</body>
 </html>
