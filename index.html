@@ -156,7 +156,7 @@
         <a class="btn btn--ghost" href="#estimate">See the estimate</a>
       </div>
       <div class="tags">
-        <span>343 features catalogued</span>
+        <span>311 features catalogued</span>
         <span>16 modules</span>
         <span>17 architecture diagrams</span>
         <span>20+ specification docs</span>
@@ -167,10 +167,10 @@
       <h4>The brief, in one line</h4>
       <p style="color:#dbe5f2;margin-top:8px;font-size:14px">Could we build this in-house instead of licensing a vendor — and what would it take?</p>
       <div class="hero-stats">
-        <div><strong>343</strong><small>features mapped</small></div>
-        <div><strong>~46%</strong><small>are "Must-have"</small></div>
-        <div><strong>≈6&nbsp;mo</strong><small>to MVP*</small></div>
-        <div><strong>9–10</strong><small>delivery squad*</small></div>
+        <div><strong>311</strong><small>features mapped</small></div>
+        <div><strong>~54%</strong><small>are "Must-have"</small></div>
+        <div><strong>≈16–18&nbsp;mo</strong><small>single launch*</small></div>
+        <div><strong>28–32</strong><small>peak team*</small></div>
       </div>
       <p style="color:#8da3c4;font-size:11px;margin-top:12px">*Indicative — see the Estimate section and the backlog document.</p>
     </div>
@@ -185,7 +185,7 @@
       <p>This package is a repeatable, AI-assisted method for sizing an in-house rebuild of any observable SaaS product — applied end-to-end to a Redbox-powered local marketplace. Everything below is original, clean-room work derived from public evidence.</p>
     </div>
     <div class="cards c3">
-      <div class="card"><h3>🔎 Observe → Specify</h3><p>The live site, sitemap, app-store listings and public vendor docs were mined into a 343-feature parity matrix and full PRDs — never the vendor's private code.</p></div>
+      <div class="card"><h3>🔎 Observe → Specify</h3><p>The live site, sitemap, app-store listings and public vendor docs were mined into a 311-feature parity matrix and full PRDs — never the vendor's private code.</p></div>
       <div class="card"><h3>📐 Architect</h3><p>A modern AWS, multi-tenant, event-driven reference architecture — captured as 17 professional draw.io diagrams (HLD, LLD, C4, ERD, sequences).</p></div>
       <div class="card"><h3>🧱 Prove it</h3><p>A working clone: a polished customer storefront and operator console, an Express API, a Postgres schema, Terraform, Docker and CI/CD.</p></div>
     </div>
@@ -202,7 +202,7 @@
     </div>
     <div class="steps">
       <div class="step"><h4>Observe</h4><p>Black-box the live site: routes, network, bundle, app listings, public docs.</p></div>
-      <div class="step"><h4>Catalogue</h4><p>Extract a deduped capability map — 343 features with priority &amp; complexity.</p></div>
+      <div class="step"><h4>Catalogue</h4><p>Extract a deduped capability map — 311 features with priority &amp; complexity.</p></div>
       <div class="step"><h4>Specify</h4><p>Generate BRD + 11 PRDs with Given/When/Then acceptance criteria.</p></div>
       <div class="step"><h4>Size</h4><p>Story-point every epic with PERT / reference-class estimation.</p></div>
       <div class="step"><h4>Estimate</h4><p>Roll up to team shape, velocity, timeline and cost ranges.</p></div>
@@ -215,15 +215,15 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">Feature parity</span>
-      <h2>343 features across 16 modules</h2>
+      <h2>311 features across 16 modules</h2>
       <p>The full parity matrix maps every observable capability to a priority (MoSCoW) and a complexity. Here is the distribution by module.</p>
     </div>
     <div class="modgrid" id="modgrid"></div>
     <div class="cards c4" style="margin-top:26px">
-      <div class="card"><div class="num">158 <small>Must</small></div><p>Core to a releasable product (~46%).</p></div>
-      <div class="card"><div class="num">116 <small>Should</small></div><p>Strongly expected for parity (~34%).</p></div>
-      <div class="card"><div class="num">69 <small>Could</small></div><p>Differentiators &amp; nice-to-haves (~20%).</p></div>
-      <div class="card"><div class="num">343 <small>Total</small></div><p>Catalogued from public evidence.</p></div>
+      <div class="card"><div class="num">167 <small>Must</small></div><p>Core platform capabilities (~54%).</p></div>
+      <div class="card"><div class="num">107 <small>Should</small></div><p>Strongly expected for parity (~34%).</p></div>
+      <div class="card"><div class="num">37 <small>Could</small></div><p>Differentiators &amp; nice-to-haves (~12%).</p></div>
+      <div class="card"><div class="num">311 <small>Total</small></div><p>Catalogued from public evidence.</p></div>
     </div>
   </div>
 </section>
@@ -244,39 +244,38 @@
     <div class="sec-head">
       <span class="eyebrow">The estimate</span>
       <h2>How many people, and how long?</h2>
-      <p>Three delivery shapes. Figures are indicative and fully derived in the backlog &amp; estimation document, with assumptions stated.</p>
+      <p>One launch at full parity — no partial MVP. The shape below is indicative; the authoritative cost is built bottom-up from the Estimation Worksheet (112 components), with assumptions stated.</p>
     </div>
     <div class="estimate">
       <div class="est">
-        <h3>MVP — single marketplace</h3>
-        <div class="big">≈ 6 months</div>
+        <h3>Delivery model — no MVP</h3>
+        <div class="big">100% parity</div>
         <ul>
-          <li>Standard squad: ~9–10 delivery engineers (~14 total)</li>
-          <li>Must-have ordering, payments (Paybox), ops console</li>
-          <li>Web-first, one region — real paid orders end to end</li>
-          <li>Lean ~6 people → ~9 mo · accelerated ~16 → ~4 mo</li>
+          <li>Single public launch at full feature parity (311 features)</li>
+          <li>Built in internal increments — not a partial customer release</li>
+          <li>Then migrate &amp; cut over live customers from the incumbent</li>
         </ul>
       </div>
       <div class="est flag">
-        <h3>V1 — competitive launch</h3>
-        <div class="big">≈ 10–12 months</div>
+        <h3>Indicative timeline</h3>
+        <div class="big">≈ 16–18 months</div>
         <ul>
-          <li>Scales toward ~2 squads (~16+ delivery)</li>
-          <li>Delivery network, marketing, loyalty, reporting</li>
-          <li>Multi-tenant onboarding, payouts &amp; KYC</li>
+          <li>Phased internal increments toward the parity launch</li>
+          <li>Ordering, Stripe Connect payments &amp; payouts, ops console</li>
+          <li>Delivery network, marketing, loyalty, reporting, onboarding/KYC</li>
         </ul>
       </div>
       <div class="est">
-        <h3>Full parity (343 features)</h3>
-        <div class="big">≈ 16–18 months</div>
+        <h3>Team &amp; cost</h3>
+        <div class="big">~28–32 peak</div>
         <ul>
-          <li>~22–26 people across 3 squads (standard plan)</li>
-          <li>Native apps, terminals/hardware, advanced BI</li>
-          <li>Hardening, compliance, DR · ~2,300 story points</li>
+          <li>~28–32 people at peak across ~3 squads</li>
+          <li>Cost is bottom-up via the Estimation Worksheet (112 components)</li>
+          <li>Figures indicative — not a quote</li>
         </ul>
       </div>
     </div>
-    <div class="note">Cost ranges, story-point roll-ups, team composition options and phasing are detailed in <b>40-BACKLOG-ESTIMATION.md</b> and the <b>roadmap</b>. The headline numbers above are reconciled to that document.</div>
+    <div class="note">Story-point roll-ups, team-composition options and phasing are detailed in <b>40-BACKLOG-ESTIMATION.md</b>, the <b>roadmap</b>, and the bottom-up <b>Estimation Worksheet</b> (112 components). The headline numbers above are reconciled to those documents.</div>
   </div>
 </section>
 
@@ -288,7 +287,7 @@
       <p>A private repository contains the full set. This page summarises it; ask for repo access to browse the source.</p>
     </div>
     <div class="deliv">
-      <div class="d"><div class="ic">📄</div><div><h4>Research &amp; methodology</h4><p>979-line evidence dossier, the reverse-engineering playbook, and the 343-feature inventory.</p></div></div>
+      <div class="d"><div class="ic">📄</div><div><h4>Research &amp; methodology</h4><p>A deep evidence dossier, the reverse-engineering playbook, and the 311-feature inventory.</p></div></div>
       <div class="d"><div class="ic">📝</div><div><h4>BRD + 11 PRDs</h4><p>Business requirements and per-module product requirements with acceptance criteria.</p></div></div>
       <div class="d"><div class="ic">📐</div><div><h4>17 architecture diagrams</h4><p>Editable draw.io with official AWS icons — HLD, LLD, C4, ERD, sequences, state machine.</p></div></div>
       <div class="d"><div class="ic">🗃️</div><div><h4>Data model &amp; API</h4><p>PostgreSQL schema with row-level-security multi-tenancy, plus an OpenAPI 3.1 spec.</p></div></div>
@@ -322,10 +321,10 @@
 <script>
   // Feature-by-module data (from docs/03-FEATURE-INVENTORY.md roll-up)
   var modules = [
-    ["Tenancy, RBAC & Config",34],["Customer Marketplace",31],["Delivery & Zones",28],
-    ["Loyalty",28],["Orders & Fulfilment",25],["Discounts & Merchandising",25],
-    ["Platform / Shared",23],["Payments & Paybox",22],["Reporting & Analytics",21],
-    ["Marketing",19],["Catalog & Menu",13],["Outlet Onboarding",12],
+    ["Tenancy, RBAC & Config",34],["Customer Marketplace",33],["Loyalty",28],
+    ["Delivery & Zones",27],["Orders & Fulfilment",25],["Discounts & Merchandising",24],
+    ["Platform / Shared",22],["Payments & Settlements",21],["Reporting & Analytics",21],
+    ["Marketing",19],["Catalogue & Menu",13],["Outlet Onboarding",12],
     ["Mobile Apps",10],["Messaging & Notifications",9],["Hardware / Terminals",7],
     ["Management Portal (shell)",6]
   ];
