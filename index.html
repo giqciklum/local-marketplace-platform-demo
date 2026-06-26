@@ -22,7 +22,11 @@
   .btn--accent{background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(255,90,31,.30)}
   .btn--accent:hover{transform:translateY(-2px)}
   .btn--ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}
-  .btn--dark{background:var(--ink);color:#fff}
+  .btn--dark{background:linear-gradient(135deg,#16335c,#0b1f3a);color:#fff;box-shadow:0 6px 18px rgba(11,31,58,.30);border:1px solid rgba(255,255,255,.10)}
+  .btn--dark:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(11,31,58,.42)}
+  .btn .arr{display:inline-block;transition:transform .16s ease}
+  .btn--dark .arr{color:var(--accent2)}
+  .btn--dark:hover .arr{transform:translateX(4px)}
   .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 
   /* nav */
@@ -33,6 +37,8 @@
   nav.top .links{margin-left:auto;display:flex;gap:22px;align-items:center}
   nav.top .links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none}
   nav.top .links a:hover{color:var(--ink)}
+  nav.top .links a.btn--dark{color:#fff;font-size:14px;font-weight:700}
+  nav.top .links a.btn--dark:hover{color:#fff}
   @media(max-width:760px){nav.top .links a:not(.btn){display:none}}
 
   /* hero */
@@ -139,7 +145,7 @@
       <a href="#features">Features</a>
       <a href="#architecture">Architecture</a>
       <a href="#estimate">Estimate</a>
-      <a class="btn btn--dark" href="./app/" >Launch live demo →</a>
+      <a class="btn btn--dark" href="./app/">Launch live demo <span class="arr">→</span></a>
     </div>
   </div>
 </nav>
